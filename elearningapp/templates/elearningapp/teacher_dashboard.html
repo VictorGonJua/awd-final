@@ -1,0 +1,37 @@
+{% extends 'elearningapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h4>Teacher Dashboard</h4>
+    <p>Welcome to your dashboard! Here you can manage your courses, view enrollments, and more.</p>
+
+    <style>
+        .center-text {
+            text-align: center;
+        }
+    </style>
+    
+    <!-- Adding Skeleton table class and custom styling for center alignment -->
+    <table class="u-full-width center-text">
+        <thead>
+            <tr>
+                <th>Course Title</th>
+                <th>Enrolled Students</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.enrolled_students_count }}</td>
+                <td>
+                    <a href="{% url 'edit_course' course.id %}" class="button">Edit</a>
+                    <a href="{% url 'delete_course' course.id %}" class="button" onclick="return confirm('Are you sure?');">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

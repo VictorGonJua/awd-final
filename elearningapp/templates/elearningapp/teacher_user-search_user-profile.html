@@ -1,0 +1,36 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ profile.user.username }}'s Profile</h2>
+    <div class="profile-info">
+        {% if profile.photo %}
+            <img src="{{ profile.photo.url }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
+        {% else %}
+            <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Picture" style="width: 150px; height: 150px; border-radius: 50%;">
+        {% endif %}
+        <p>Name: {{ profile.real_name }}</p>
+        <p>Status: {{ profile.status }}</p>
+        <p>Type: {% if profile.is_teacher %}Teacher{% else %}Student{% endif %}</p>
+    </div>
+
+    <h3>{% if profile.is_teacher %}Created Courses{% else %}Enrolled Courses{% endif %}</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Course Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

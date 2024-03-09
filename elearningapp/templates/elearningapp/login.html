@@ -1,0 +1,22 @@
+{% extends 'elearningapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="six columns offset-by-three">
+            <h4>Login</h4>
+            <form method="post">
+                {% csrf_token %}
+                <label for="id_username">Username</label>
+                <input type="text" id="id_username" name="username" class="u-full-width" required>
+
+                <label for="id_password">Password</label>
+                <input type="password" id="id_password" name="password" class="u-full-width" required>
+
+                <button type="submit" class="button-primary">Log in</button>
+            </form>
+            <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

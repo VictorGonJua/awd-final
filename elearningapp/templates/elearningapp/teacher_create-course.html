@@ -1,0 +1,13 @@
+
+{% extends 'elearningapp/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Create Course</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button button-primary">Save Course</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eLearning Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <style>
+        body {
+            background-color: #f0f9ff;
+            color: #036;
+        }
+        header {
+            background-color: #0275d8;
+            color: #ffffff;
+            padding: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0; /* Remove default margin */
+            padding: 0 10px; /* Add some padding on the sides */
+            font-size: 24px; /* Smaller font size */
+        }
+        header form {
+            margin: 0; /* Removes margin */
+            height: 40px; /* Matches the height of the other buttons */
+        }
+
+        header form button {
+            cursor: pointer; /* Changes cursor to pointer on hover over the button */
+            font-size: 16px; /* Adjust the font size as needed */
+        }
+        footer {
+            background-color: #0275d8;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .container {
+            width: 95%;
+            max-width: 1200px; 
+            margin: auto;
+            overflow: hidden;
+        }
+    
+    .button-primary, .button {
+        background-color: #0073b1; /* LinkedIn blue */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 0 5px; /* Small space between buttons */
+        border-radius: 2px; /* Slightly rounded corners for a modern look */
+        text-decoration: none; /* Remove underline from links */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        display: inline-flex; /* Use flexbox for alignment */
+        align-items: center; /* Align items vertically in the center */
+        justify-content: center; /* Center content horizontally */
+        height: 40px; /* Define a fixed height */
+    }
+
+    form button {
+        background-color: #0073b1; /* LinkedIn blue */
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin: 0 5px; /* Small space between buttons */
+        border-radius: 2px; /* Slightly rounded corners for a modern look */
+        text-decoration: none; /* Remove underline from links */
+        transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+        display: inline-flex; /* Use flexbox for alignment */
+        align-items: center; /* Align items vertically in the center */
+        justify-content: center; /* Center content horizontally */
+        height: 40px; /* Define a fixed height */
+}
+    
+    .button-primary:hover, .button:hover {
+        background-color: #005682; /* Darker shade of blue for hover effect */
+    }
+    
+    .header-right {
+        display: flex;
+        align-items: center;
+    }
+    
+    .user-greeting {
+        margin-left: 20px;
+        color: white;
+    }
+</style>
+    
+</head>
+<body>
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <h1 style="margin: 0; flex-grow: 1; font-size: 24px;">eLearning Platform</h1>
+            {% if user.is_authenticated %}
+                {% if user.profile.is_teacher %}
+                
+                    <a href="{% url 'teacher_dashboard' %}" class="button button-primary">My Dashboard</a>
+                    <a href="{% url 'create_course' %}" class="button button-primary">Create Course</a>
+                    <a href="{% url 'search_users' %}" class="button button-primary">User Search</a>
+                    <a href="{% url 'edit_teacher_profile' %}" class="button button-primary">My Profile</a>
+
+                    <form method="post" action="{% url 'logout' %}" style="display: inline-flex; align-items: center;">
+                        {% csrf_token %}
+                        <button type="submit" class="button">Logout</button>
+                    </form>
+
+                    <span>Hello teacher, {{ user.username }}</span>
+                {% else %}
+                    <a href="{% url 'student_dashboard' %}" class="button button-primary">My Dashboard</a>
+                    <a href="{% url 'all_courses' %}" class="button button-primary">All Courses</a>
+                    <a href="{% url 'edit_teacher_profile' %}" class="button button-primary">My Profile</a>
+
+                    <form method="post" action="{% url 'logout' %}" style="display: inline-flex; align-items: center;">
+                        {% csrf_token %}
+                        <button type="submit" class="button">Logout</button>
+                    </form>
+                    
+                    <span>Hello student, {{ user.username }}</span>
+                {% endif %}
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 eLearning Platform. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

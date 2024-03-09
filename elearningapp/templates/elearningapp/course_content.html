@@ -1,0 +1,16 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Course Content: {{ course.title }}</h2>
+    <p>Description: {{ course.description }}</p>
+    <h3>Materials</h3>
+    {% if course.materials %}
+        <a href="{{ course.materials.url }}" download>Download Materials</a>
+    {% else %}
+        <p>No materials uploaded for this course.</p>
+    {% endif %}
+    <!-- Additional course information can go here -->
+</div>
+{% endblock %}

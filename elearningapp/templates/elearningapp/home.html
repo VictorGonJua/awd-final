@@ -1,0 +1,15 @@
+{% extends 'elearningapp/base.html' %}
+
+{% block content %}
+<div class="row" style="margin-bottom: 400px;"> 
+    <div class="twelve columns" style="text-align: center; margin-top: 20px;">
+        <h2>Welcome to Our eLearning Platform</h2>
+        <p>Join us to explore a wide range of courses designed to help you learn in an efficient and interactive way.</p>
+
+        <div class="button-container">
+            <a href="{% url 'register' %}" class="button button-primary">Register</a>
+            <a href="{% url 'login' %}" class="button button-primary">Log In</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>All Courses</h2>
+    <table class="u-full-width">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Description</th>
+                <th>Enrolled Students</th>
+                <th>Teacher</th>
+                <th>Teacher Photo</th>
+                <th>Actions</th> <!-- Add a column for actions -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.description }}</td>
+                <td>{{ course.enrolled_students.count }}</td>
+                <td>{{ course.teacher.real_name }}</td>
+                <td>
+                    {% if course.teacher.photo %}
+                        <img src="{{ course.teacher.photo.url }}" alt="{{ course.teacher.real_name }}" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'images/default_profile.jpg' %}" alt="Default Teacher Photo" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Check if the user is already enrolled -->
+                    {% if course.id in enrolled_course_ids %}
+                        <form action="{% url 'leave_course' course.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="button">Leave</button>
+                        </form>
+                    {% else %}
+                        <form action="{% url 'enroll_course' course.id %}" method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="button">Enroll</button>
+                        </form>
+                    {% endif %}
+                    <!-- Link to view course content -->
+                    <a href="{% url 'course_content' course.id %}" class="button">View Content</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

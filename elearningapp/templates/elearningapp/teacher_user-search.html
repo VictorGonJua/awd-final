@@ -1,0 +1,49 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Search Users</h2>
+    <form method="get">
+        <label for="type">Select Type:</label>
+        <select name="type" id="type" onchange="this.form.submit()">
+            <option value="">All</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+    </form>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Courses</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profile in profiles %}
+            <tr>
+                <td>
+                    {% if profile.photo %}
+                        <img src="{{ profile.photo.url }}" alt="Profile Picture" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'images/default_profile.jpg' %}" alt="Default" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'user_profile' profile.user.id %}">{{ profile.real_name }}</a></td>
+                <td>{{ profile.status }}</td>
+                <td>
+                    {% if profile.is_teacher %}
+                        {{ profile.courses_taught.count }} Courses Created
+                    {% else %}
+                        {{ profile.enrollments.count }} Courses Enrolled
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

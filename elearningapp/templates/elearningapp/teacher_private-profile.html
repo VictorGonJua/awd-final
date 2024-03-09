@@ -1,0 +1,21 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Your Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="profile-picture" style="text-align: center; margin-bottom: 20px;">
+            {% if request.user.profile.photo %}
+                <img src="{{ request.user.profile.photo.url }}" alt="Profile Picture"  style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover; border: 3px solid #0275d8; padding: 3px;">
+            {% else %}
+                <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Picture" style="border-radius: 50%; width: 150px; height: 150px; object-fit: cover; border: 3px solid #0275d8; padding: 3px;">
+            {% endif %}
+        </div>
+        {{ form.as_p }}
+        <button type="submit" class="button button-primary">Save Changes</button>
+        <a href="{% url 'teacher_dashboard' %}" class="button">Cancel</a>
+    </form>
+</div>
+{% endblock %}

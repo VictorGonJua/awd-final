@@ -1,0 +1,49 @@
+{% extends 'elearningapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="margin-bottom: 20px;">
+    <h4>Student Dashboard</h4>
+    <p>Welcome to your dashboard! Here you can find your enrolled courses, upcoming deadlines, and more.</p>
+    <h2>Enrolled Courses</h2>
+    <table class="u-full-width">
+        <thead>
+            <tr>
+                <th>Course Name</th>
+                <th>Description</th>
+                <th>Enrolled Students</th>
+                <th>Teacher</th>
+                <th>Teacher Photo</th>
+                <th>Actions</th> <!-- Actions column for leaving a course or viewing content -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in enrolled_courses %}
+            <tr>
+                <td>{{ course.title }}</td>
+                <td>{{ course.description }}</td>
+                <td>{{ course.enrolled_students.count }}</td>
+                <td>{{ course.teacher.real_name }}</td>
+                <td>
+                    {% if course.teacher.photo %}
+                        <img src="{{ course.teacher.photo.url }}" alt="{{ course.teacher.real_name }}" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% else %}
+                        <img src="{% static 'images/default_profile.jpg' %}" alt="Default Teacher Photo" style="width: 50px; height: 50px; border-radius: 50%;">
+                    {% endif %}
+                </td>
+                <td>
+                    <!-- Leave course form -->
+                    <form action="{% url 'leave_course' course.id %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="button">Leave</button>
+                    </form>
+                    <!-- Link to view course content -->
+                    <a href="{% url 'course_content' course.id %}" class="button">View Content</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}
